@@ -1,0 +1,25 @@
+---
+- name: install nfs-utils
+  yum: 
+    name: nfs-utils
+    state: latest
+- name: create nfs
+  file:
+    path: '/opt/nfsdata'
+    recurse: yes
+    state: directory
+    owner: nadmin
+    group: nadmin
+    mode: '755'  
+- name: copy exports
+  template:
+    src=exports.j2
+    dest=/etc/exports
+    owner=root
+    group=root
+    mode=755
+
+- name: nfs-utils
+  service:
+    name: nfs-utils
+    state: restarted

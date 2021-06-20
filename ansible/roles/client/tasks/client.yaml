@@ -1,0 +1,23 @@
+---
+- name: install nfs-common
+  apt: 
+    name: nfs-common 
+    state: latest
+- name: Create a mount client
+  file:
+    path: '/nfsdata'
+    recurse: yes
+    state: directory
+    owner: nadmin
+    group: nadmin
+    mode: '755'
+- name: nfs mount
+  mount:
+    path=/nfsdata
+    src=192.168.1.90:/opt/nfsdata
+    fstype=nfs
+    dump=0
+    passno=2
+    opts=defaults,rw,bg
+    state=mounted
+
